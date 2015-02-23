@@ -1,23 +1,22 @@
-From b19ebbd127b6638f1ae5b0b2503c13ea13524b6a Mon Sep 17 00:00:00 2001
-From: Robert Nelson <robertcnelson@gmail.com>
-Date: Fri, 22 May 2015 14:54:48 -0500
+From 82d3136b53b02d354e8fb929a87f068a612b4543 Mon Sep 17 00:00:00 2001
+From: Robert Budde <robert.budde@ing-budde.de>
+Date: Mon, 23 Feb 2015 22:35:12 +0100
 Subject: [PATCH] auto generated: capes: add dtbs to makefile
 
-Signed-off-by: Robert Nelson <robertcnelson@gmail.com>
+Signed-off-by: Robert Budde <robert.budde@ing-budde.de>
 ---
- arch/arm/boot/dts/Makefile | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ arch/arm/boot/dts/Makefile | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
 diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
-index 87ed4c9..d2654c1 100644
+index d63e325..b0c1305 100644
 --- a/arch/arm/boot/dts/Makefile
 +++ b/arch/arm/boot/dts/Makefile
-@@ -229,6 +229,49 @@ dtb-$(CONFIG_ARCH_OMAP2PLUS) += omap2420-h4.dtb \
+@@ -229,6 +229,48 @@ dtb-$(CONFIG_ARCH_OMAP2PLUS) += omap2420-h4.dtb \
  	am335x-evmsk.dtb \
  	am335x-bone.dtb \
  	am335x-boneblack.dtb \
-+	am335x-bonegreen.dtb \
-+	am335x-boneblack-wl1835mod.dtb \
++	am335x-boneblack-ibb.dtb \
 +	am335x-boneblack-ttyO5.dtb \
 +	am335x-boneblack-ttyO4.dtb \
 +	am335x-boneblack-ttyO2.dtb \
@@ -38,6 +37,7 @@ index 87ed4c9..d2654c1 100644
 +	am335x-boneblack-bb-view-43.dtb \
 +	am335x-boneblack-audio-revb.dtb \
 +	am335x-boneblack-audio-reva.dtb \
++	am335x-bone-ibb.dtb \
 +	am335x-bone-ttyO5.dtb \
 +	am335x-bone-ttyO4.dtb \
 +	am335x-bone-ttyO2.dtb \
@@ -58,10 +58,9 @@ index 87ed4c9..d2654c1 100644
 +	am335x-bone-bb-view-43.dtb \
 +	am335x-bone-audio-revb.dtb \
 +	am335x-bone-audio-reva.dtb \
-+	am335x-arduino-tre.dtb \
  	am335x-nano.dtb \
  	am335x-base0033.dtb \
  	am3517-craneboard.dtb \
 -- 
-2.1.4
+1.9.1
 

@@ -1,0 +1,130 @@
+From cfa8a865e34a6f8f65adbbee66b455abc495e46f Mon Sep 17 00:00:00 2001
+From: Robert Budde <robert.budde@ing-budde.de>
+Date: Mon, 23 Feb 2015 22:35:12 +0100
+Subject: [PATCH 11/11] auto generated: cape: ibb
+
+Signed-off-by: Robert Budde <robert.budde@ing-budde.de>
+---
+ arch/arm/boot/dts/am335x-bone-ibb.dts      | 54 ++++++++++++++++++++++++++++++
+ arch/arm/boot/dts/am335x-boneblack-ibb.dts | 48 ++++++++++++++++++++++++++
+ 2 files changed, 102 insertions(+)
+ create mode 100644 arch/arm/boot/dts/am335x-bone-ibb.dts
+ create mode 100644 arch/arm/boot/dts/am335x-boneblack-ibb.dts
+
+diff --git a/arch/arm/boot/dts/am335x-bone-ibb.dts b/arch/arm/boot/dts/am335x-bone-ibb.dts
+new file mode 100644
+index 0000000..446f464
+--- /dev/null
++++ b/arch/arm/boot/dts/am335x-bone-ibb.dts
+@@ -0,0 +1,54 @@
++/*
++ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++/dts-v1/;
++
++#include "am33xx.dtsi"
++#include "am335x-bone-common.dtsi"
++#include "am335x-bone-common-pinmux.dtsi"
++
++/ {
++	model = "TI AM335x BeagleBone";
++	compatible = "ti,am335x-bone", "ti,am33xx";
++};
++
++&ldo3_reg {
++	regulator-min-microvolt = <1800000>;
++	regulator-max-microvolt = <3300000>;
++	regulator-always-on;
++};
++
++&ocp {
++	/* clkout2 */
++	P9_41_pinmux {
++		status = "disabled";
++	};
++	/* mmc1 */
++	P9_92_pinmux {
++		status = "disabled";
++	};
++};
++
++&mmc1 {
++	vmmc-supply = <&ldo3_reg>;
++};
++
++&am33xx_pinmux {
++	pinctrl-names = "default";
++	pinctrl-0 = <&clkout2_pin>;
++};
++
++&sham {
++	status = "okay";
++};
++
++&aes {
++	status = "okay";
++};
++
++#include "am335x-bone-i2c2-cape-eeprom.dtsi"
++#include "am335x-bone-ibb.dtsi"
+diff --git a/arch/arm/boot/dts/am335x-boneblack-ibb.dts b/arch/arm/boot/dts/am335x-boneblack-ibb.dts
+new file mode 100644
+index 0000000..f3e7c9a
+--- /dev/null
++++ b/arch/arm/boot/dts/am335x-boneblack-ibb.dts
+@@ -0,0 +1,48 @@
++/*
++ * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License version 2 as
++ * published by the Free Software Foundation.
++ */
++/dts-v1/;
++
++#include "am33xx.dtsi"
++#include "am335x-bone-common.dtsi"
++#include "am335x-bone-common-pinmux.dtsi"
++
++/ {
++	model = "TI AM335x BeagleBone Black";
++	compatible = "ti,am335x-bone-black", "ti,am335x-bone", "ti,am33xx";
++};
++
++&ldo3_reg {
++	regulator-min-microvolt = <1800000>;
++	regulator-max-microvolt = <1800000>;
++	regulator-always-on;
++};
++
++&ocp {
++	/* clkout2 */
++	P9_41_pinmux {
++		status = "disabled";
++	};
++	/* mmc1 */
++	P9_92_pinmux {
++		status = "disabled";
++	};
++};
++
++&mmc1 {
++	vmmc-supply = <&vmmcsd_fixed>;
++};
++
++&am33xx_pinmux {
++	pinctrl-names = "default";
++	pinctrl-0 = <&clkout2_pin>;
++};
++
++#include "am335x-boneblack-emmc.dtsi"
++#include "am335x-boneblack-nxp-hdmi-audio.dtsi"
++#include "am335x-bone-i2c2-cape-eeprom.dtsi"
++#include "am335x-bone-ibb.dtsi"
+-- 
+1.9.1
+
