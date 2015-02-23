@@ -259,6 +259,7 @@ beaglebone () {
 	${git} "${DIR}/patches/beaglebone/pinmux/0028-audio-cape-Adjust-clock-frequency.patch"
 	${git} "${DIR}/patches/beaglebone/pinmux/0029-audio-cape-Add-comments.patch"
 	${git} "${DIR}/patches/beaglebone/pinmux/0030-arm-dts-am335x-bone-common-add-collision-and-carrier.patch"
+	${git} "${DIR}/patches/beaglebone/pinmux/0031-cape-ibb.patch"
 
 	if [ "x${regenerate}" = "xenable" ] ; then
 		number=30
@@ -526,6 +527,39 @@ beaglebone () {
 		${git} "${DIR}/patches/beaglebone/generated/0010-auto-generated-cape-can1.patch"
 	fi
 
+	if [ "x${regenerate}" = "xenable" ] ; then
+		base_dts="am335x-bone"
+		cape="ttyO1"
+		dtsi_append
+
+		cape="ttyO2"
+		dtsi_append
+
+		cape="ttyO4"
+		dtsi_append
+
+		cape="ibb"
+		dtsi_append
+
+		base_dts="am335x-boneblack"
+		cape="ttyO1"
+		dtsi_append
+
+		cape="ttyO2"
+		dtsi_append
+
+		cape="ttyO4"
+		dtsi_append
+
+		cape="ibb"
+		dtsi_append
+
+		git commit -a -m 'auto generated: cape: ibb' -s
+		git format-patch -11 -o ../patches/beaglebone/generated/
+	else
+		${git} "${DIR}/patches/beaglebone/generated/0011-auto-generated-cape-ibb.patch"
+	fi
+
 	echo "dir: beaglebone/capes"
 #	regenerate="enable"
 	if [ "x${regenerate}" = "xenable" ] ; then
@@ -597,6 +631,9 @@ beaglebone () {
 		device="am335x-boneblack-ttyO5.dtb" ; dtb_makefile_append
 		device="am335x-boneblack-wl1835mod.dtb" ; dtb_makefile_append
 		device="am335x-bonegreen.dtb" ; dtb_makefile_append
+
+		device="am335x-boneblack-ibb.dtb"
+		dtb_makefile_append
 
 		git commit -a -m 'auto generated: capes: add dtbs to makefile' -s
 		git format-patch -1 -o ../patches/beaglebone/generated/last/
