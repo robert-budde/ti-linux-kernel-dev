@@ -529,30 +529,30 @@ beaglebone () {
 
 	if [ "x${regenerate}" = "xenable" ] ; then
 		base_dts="am335x-bone"
-		cape="ttyO1"
-		dtsi_append
-
-		cape="ttyO2"
-		dtsi_append
-
-		cape="ttyO4"
-		dtsi_append
-
 		cape="ibb"
 		dtsi_append
+
+		cape="ttyO1"
+		echo "#include \"am335x-bone-${cape}.dtsi\"" >> ${wfile}
+
+		cape="ttyO2"
+		echo "#include \"am335x-bone-${cape}.dtsi\"" >> ${wfile}
+
+		cape="ttyO4"
+		echo "#include \"am335x-bone-${cape}.dtsi\"" >> ${wfile}
 
 		base_dts="am335x-boneblack"
-		cape="ttyO1"
-		dtsi_append
-
-		cape="ttyO2"
-		dtsi_append
-
-		cape="ttyO4"
-		dtsi_append
-
 		cape="ibb"
 		dtsi_append
+
+		cape="ttyO1"
+		echo "#include \"am335x-bone-${cape}.dtsi\"" >> ${wfile}
+
+		cape="ttyO2"
+		echo "#include \"am335x-bone-${cape}.dtsi\"" >> ${wfile}
+
+		cape="ttyO4"
+		echo "#include \"am335x-bone-${cape}.dtsi\"" >> ${wfile}
 
 		git commit -a -m 'auto generated: cape: ibb' -s
 		git format-patch -11 -o ../patches/beaglebone/generated/

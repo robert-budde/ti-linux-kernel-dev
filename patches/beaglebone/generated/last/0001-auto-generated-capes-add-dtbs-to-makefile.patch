@@ -1,6 +1,6 @@
-From 82d3136b53b02d354e8fb929a87f068a612b4543 Mon Sep 17 00:00:00 2001
+From 6ad57fa50ebddea5245b86d9bfa38df7663a2492 Mon Sep 17 00:00:00 2001
 From: Robert Budde <robert.budde@ing-budde.de>
-Date: Mon, 23 Feb 2015 22:35:12 +0100
+Date: Tue, 24 Feb 2015 18:01:24 +0100
 Subject: [PATCH] auto generated: capes: add dtbs to makefile
 
 Signed-off-by: Robert Budde <robert.budde@ing-budde.de>
