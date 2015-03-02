@@ -1,20 +1,19 @@
-From 23539e00f7e36667e401cbc246665b08aab360ce Mon Sep 17 00:00:00 2001
+From 4d8171bdb7e216ff1774c1e2b0c800811773e41a Mon Sep 17 00:00:00 2001
 From: Robert Budde <robert.budde@ing-budde.de>
-Date: Mon, 23 Feb 2015 22:13:52 +0100
-Subject: [PATCH] cape: ibb 00a0
+Date: Mon, 2 Mar 2015 07:17:27 +0100
+Subject: [PATCH] add ibb 00a0
 
-Signed-off-by: Robert Budde <robert.budde@ing-budde.de>
 ---
- arch/arm/boot/dts/am335x-bone-ibb.dtsi | 81 ++++++++++++++++++++++++++++++++++
- 1 file changed, 81 insertions(+)
+ arch/arm/boot/dts/am335x-bone-ibb.dtsi | 85 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 85 insertions(+)
  create mode 100644 arch/arm/boot/dts/am335x-bone-ibb.dtsi
 
 diff --git a/arch/arm/boot/dts/am335x-bone-ibb.dtsi b/arch/arm/boot/dts/am335x-bone-ibb.dtsi
 new file mode 100644
-index 0000000..56eabf4
+index 0000000..c7c2594
 --- /dev/null
 +++ b/arch/arm/boot/dts/am335x-bone-ibb.dtsi
-@@ -0,0 +1,81 @@
+@@ -0,0 +1,85 @@
 +/*
 + * Copyright (C) 2015 IBB Robert Budde - http://www.ing-budde.de/
 + *
@@ -60,38 +59,42 @@ index 0000000..56eabf4
 +
 +  /* PCA9546 I2C multiplexer */
 +  i2cmux@70 {
++    compatible = "nxp,pca9546";
 +    #address-cells = <1>;
 +    #size-cells = <0>;
-+    compatible = "nxp,pca9545";
 +    reg = <0x70>;
 +
-+    i2c@0 {
++    bus@0 {
++      compatible = "nxp,pca954x-bus";
 +      #address-cells = <1>;
 +      #size-cells = <0>;
-+      compatible = "nxp,pca954x-bus";
 +      reg = <0>;
-+      deselect_on_exit;
++      nxp,adapter-id = <0x3>;
++      nxp,deselect-on-exit;
 +    };
-+    i2c@1 {
++    bus@1 {
++      compatible = "nxp,pca954x-bus";
 +      #address-cells = <1>;
 +      #size-cells = <0>;
-+      compatible = "nxp,pca954x-bus";
 +      reg = <1>;
-+      deselect_on_exit;
++      nxp,adapter-id = <0x4>;
++      nxp,deselect-on-exit;
 +    };
-+    i2c@2 {
++    bus@2 {
++      compatible = "nxp,pca954x-bus";
 +      #address-cells = <1>;
 +      #size-cells = <0>;
-+      compatible = "nxp,pca954x-bus";
 +      reg = <2>;
-+      deselect_on_exit;
++      nxp,adapter-id = <0x5>;
++      nxp,deselect-on-exit;
 +    };
-+    i2c@3 {
++    bus@3 {
++      compatible = "nxp,pca954x-bus";
 +      #address-cells = <1>;
 +      #size-cells = <0>;
-+      compatible = "nxp,pca954x-bus";
 +      reg = <3>;
-+      deselect_on_exit;
++      nxp,adapter-id = <0x6>;
++      nxp,deselect-on-exit;
 +    };
 +  };
 +
