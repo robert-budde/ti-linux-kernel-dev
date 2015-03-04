@@ -1,22 +1,22 @@
-From 837c65cb49bc82653168c51ea0a06acc28019021 Mon Sep 17 00:00:00 2001
+From e5d940d115cf25217d0444f2742e8c5d3200933f Mon Sep 17 00:00:00 2001
 From: Robert Budde <robert.budde@ing-budde.de>
-Date: Tue, 24 Feb 2015 18:01:24 +0100
+Date: Wed, 4 Mar 2015 17:00:23 +0100
 Subject: [PATCH 11/11] auto generated: cape: ibb
 
 Signed-off-by: Robert Budde <robert.budde@ing-budde.de>
 ---
- arch/arm/boot/dts/am335x-bone-ibb.dts      | 57 ++++++++++++++++++++++++++++++
- arch/arm/boot/dts/am335x-boneblack-ibb.dts | 51 ++++++++++++++++++++++++++
- 2 files changed, 108 insertions(+)
+ arch/arm/boot/dts/am335x-bone-ibb.dts      | 50 +++++++++++++++++++++++++++++
+ arch/arm/boot/dts/am335x-boneblack-ibb.dts | 51 ++++++++++++++++++++++++++++++
+ 2 files changed, 101 insertions(+)
  create mode 100644 arch/arm/boot/dts/am335x-bone-ibb.dts
  create mode 100644 arch/arm/boot/dts/am335x-boneblack-ibb.dts
 
 diff --git a/arch/arm/boot/dts/am335x-bone-ibb.dts b/arch/arm/boot/dts/am335x-bone-ibb.dts
 new file mode 100644
-index 0000000..be0db5e
+index 0000000..2d4bf05
 --- /dev/null
 +++ b/arch/arm/boot/dts/am335x-bone-ibb.dts
-@@ -0,0 +1,57 @@
+@@ -0,0 +1,50 @@
 +/*
 + * Copyright (C) 2012 Texas Instruments Incorporated - http://www.ti.com/
 + *
@@ -61,15 +61,8 @@ index 0000000..be0db5e
 +	pinctrl-0 = <&clkout2_pin>;
 +};
 +
-+&sham {
-+	status = "okay";
-+};
-+
-+&aes {
-+	status = "okay";
-+};
-+
 +#include "am335x-bone-i2c2-cape-eeprom.dtsi"
++
 +#include "am335x-bone-ibb.dtsi"
 +#include "am335x-bone-ttyO1.dtsi"
 +#include "am335x-bone-ttyO2.dtsi"
