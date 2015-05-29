@@ -83,7 +83,6 @@ fixes () {
 	fi
 
 	${git} "${DIR}/patches/fixes/0001-musb_cppi41-fix-mismerge-https-github.com-beagleboar.patch"
-	${git} "${DIR}/patches/fixes/0002-add-dt-bindings-to-i2c-mux-driver.patch"
 
 	if [ "x${regenerate}" = "xenable" ] ; then
 		number=1
