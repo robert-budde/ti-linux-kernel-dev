@@ -1,19 +1,20 @@
-From 884d05e4f1ee86d5239cfba1e30605b1958d40fa Mon Sep 17 00:00:00 2001
+From 6bcbaa3d977f5c42e029bbdb09ef83969ae95d64 Mon Sep 17 00:00:00 2001
 From: Robert Budde <robert.budde@ing-budde.de>
-Date: Sat, 28 Mar 2015 09:39:39 +0100
-Subject: [PATCH] create ibb dtsi
+Date: Fri, 29 May 2015 14:12:34 +0200
+Subject: [PATCH] cape ibb
 
+Signed-off-by: Robert Budde <robert.budde@ing-budde.de>
 ---
- arch/arm/boot/dts/am335x-bone-ibb.dtsi | 81 ++++++++++++++++++++++++++++++++++
- 1 file changed, 81 insertions(+)
+ arch/arm/boot/dts/am335x-bone-ibb.dtsi | 84 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 84 insertions(+)
  create mode 100644 arch/arm/boot/dts/am335x-bone-ibb.dtsi
 
 diff --git a/arch/arm/boot/dts/am335x-bone-ibb.dtsi b/arch/arm/boot/dts/am335x-bone-ibb.dtsi
 new file mode 100644
-index 0000000..6cf7da4
+index 0000000..729e1b0
 --- /dev/null
 +++ b/arch/arm/boot/dts/am335x-bone-ibb.dtsi
-@@ -0,0 +1,81 @@
+@@ -0,0 +1,84 @@
 +/*
 + * Copyright (C) 2015 IBB Robert Budde - http://www.ing-budde.de/
 + *
@@ -45,6 +46,13 @@ index 0000000..6cf7da4
 +      gpio-key,wakeup;
 +    };
 +  };
++
++  aliases {
++    i2c3 = &im0;
++    i2c4 = &im1;
++    i2c5 = &im2;
++    i2c6 = &im3;
++  };
 +};
 +
 +&i2c2 {
@@ -64,33 +72,29 @@ index 0000000..6cf7da4
 +    #size-cells = <0>;
 +    reg = <0x70>;
 +
-+    bus@0 {
++    im0: bus@0 {
 +      compatible = "nxp,pca954x-bus";
 +      #address-cells = <1>;
 +      #size-cells = <0>;
 +      reg = <0>;
-+      nxp,adapter-id = <0x3>;
 +    };
-+    bus@1 {
++    im1: bus@1 {
 +      compatible = "nxp,pca954x-bus";
 +      #address-cells = <1>;
 +      #size-cells = <0>;
 +      reg = <1>;
-+      nxp,adapter-id = <0x4>;
 +    };
-+    bus@2 {
++    im2: bus@2 {
 +      compatible = "nxp,pca954x-bus";
 +      #address-cells = <1>;
 +      #size-cells = <0>;
 +      reg = <2>;
-+      nxp,adapter-id = <0x5>;
 +    };
-+    bus@3 {
++    im3: bus@3 {
 +      compatible = "nxp,pca954x-bus";
 +      #address-cells = <1>;
 +      #size-cells = <0>;
 +      reg = <3>;
-+      nxp,adapter-id = <0x6>;
 +    };
 +  };
 +
