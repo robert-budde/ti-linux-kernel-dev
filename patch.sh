@@ -632,9 +632,7 @@ beaglebone () {
 		device="am335x-boneblack-ttyO5.dtb" ; dtb_makefile_append
 		device="am335x-boneblack-wl1835mod.dtb" ; dtb_makefile_append
 		device="am335x-bonegreen.dtb" ; dtb_makefile_append
-
-		device="am335x-boneblack-ibb.dtb"
-		dtb_makefile_append
+		device="am335x-boneblack-ibb.dtb" ; dtb_makefile_append
 
 		git commit -a -m 'auto generated: capes: add dtbs to makefile' -s
 		git format-patch -1 -o ../patches/beaglebone/generated/last/
