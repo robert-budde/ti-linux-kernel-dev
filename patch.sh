@@ -145,6 +145,7 @@ rt () {
 	rt_patch="${KERNEL_REL}${kernel_rt}"
 	#regenerate="enable"
 	if [ "x${regenerate}" = "xenable" ] ; then
+
 		wget -c https://www.kernel.org/pub/linux/kernel/projects/rt/${KERNEL_REL}/patch-${rt_patch}.patch.xz
 		xzcat patch-${rt_patch}.patch.xz | patch -p1 || rt_cleanup
 		rm -f patch-${rt_patch}.patch.xz
@@ -176,11 +177,9 @@ reverts () {
 	fi
 
 	${git} "${DIR}/patches/reverts/0001-Revert-spi-spidev-Warn-loudly-if-instantiated-from-D.patch"
-	#am335x causing random reboots...
-	${git} "${DIR}/patches/reverts/0002-Revert-usb-musb-dsps-just-start-polling-already.patch"
 
 	if [ "x${regenerate}" = "xenable" ] ; then
-		number=2
+		number=1
 		cleanup
 	fi
 }
@@ -196,9 +195,10 @@ backports () {
 
 	#careful around: https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/drivers/net/wireless/mediatek?id=30686bf7f5b3c30831761e188a6e3cb33580fa48
 	${git} "${DIR}/patches/backports/mediatek/0001-backport-mediatek-mt7601u-from-v4.2-rc3.patch"
+	${git} "${DIR}/patches/backports/0002-backport-drivers-staging-fbtft-v4.3.0.patch"
 
 	if [ "x${regenerate}" = "xenable" ] ; then
-		number=1
+		number=2
 		cleanup
 	fi
 }
@@ -210,23 +210,54 @@ fixes () {
 		start_cleanup
 	fi
 
-	${git} "${DIR}/patches/fixes/0001-Fix-remoteproc-to-work-with-the-PRU-GNU-Binutils-por.patch"
-
 	if [ "x${regenerate}" = "xenable" ] ; then
 		number=1
 		cleanup
 	fi
 }
 
-pru () {
-	echo "dir: pru"
+pru_uio () {
+	echo "dir: pru_uio"
 	#regenerate="enable"
 	if [ "x${regenerate}" = "xenable" ] ; then
 		start_cleanup
 	fi
 
-	${git} "${DIR}/patches/pru/0001-Making-the-uio-pruss-driver-work.patch"
-	${git} "${DIR}/patches/pru/0002-Cleaned-up-error-reporting.patch"
+	${git} "${DIR}/patches/pru_uio/0001-Making-the-uio-pruss-driver-work.patch"
+	${git} "${DIR}/patches/pru_uio/0002-Cleaned-up-error-reporting.patch"
+
+	if [ "x${regenerate}" = "xenable" ] ; then
+		number=2
+		cleanup
+	fi
+}
+
+pru_rpmsg () {
+	echo "dir: pru_rpmsg"
+	#regenerate="enable"
+	if [ "x${regenerate}" = "xenable" ] ; then
+		start_cleanup
+	fi
+
+	${git} "${DIR}/patches/pru_rpmsg/0001-Fix-remoteproc-to-work-with-the-PRU-GNU-Binutils-por.patch"
+	${git} "${DIR}/patches/pru_rpmsg/0002-Add-rpmsg_pru-support.patch"
+	${git} "${DIR}/patches/pru_rpmsg/0003-ARM-samples-seccomp-no-m32.patch"
+
+	if [ "x${regenerate}" = "xenable" ] ; then
+		number=3
+		cleanup
+	fi
+}
+
+x15 () {
+	echo "dir: x15/dsp"
+	#regenerate="enable"
+	if [ "x${regenerate}" = "xenable" ] ; then
+		start_cleanup
+	fi
+
+	${git} "${DIR}/patches/x15/dsp/0001-am57xx-beagle-x15-cmem.patch"
+	${git} "${DIR}/patches/x15/dsp/0002-dra74x-dra7xx-debugss.patch"
 
 	if [ "x${regenerate}" = "xenable" ] ; then
 		number=2
@@ -293,28 +324,29 @@ bbb_overlays () {
 	${git} "${DIR}/patches/bbb_overlays/nvmem/0006-nvmem-qfprom-Add-Qualcomm-QFPROM-support.patch"
 	${git} "${DIR}/patches/bbb_overlays/nvmem/0007-nvmem-qfprom-Add-bindings-for-qfprom.patch"
 	${git} "${DIR}/patches/bbb_overlays/nvmem/0008-nvmem-sunxi-Move-the-SID-driver-to-the-nvmem-framewo.patch"
-
-#linux-next:
-
-	${git} "${DIR}/patches/bbb_overlays/nvmem/0009-nvmem-Add-Vybrid-OCOTP-support.patch"
-	${git} "${DIR}/patches/bbb_overlays/nvmem/0010-nvmem-imx-ocotp-Add-i.MX6-OCOTP-driver.patch"
-	${git} "${DIR}/patches/bbb_overlays/nvmem/0011-nvmem-add-driver-for-ocotp-in-i.MX23-and-i.MX28.patch"
-	${git} "${DIR}/patches/bbb_overlays/nvmem/0012-nvmem-Adding-bindings-for-rockchip-efuse.patch"
-	${git} "${DIR}/patches/bbb_overlays/nvmem/0013-nvmem-rockchip_efuse_regmap_config-can-be-static.patch"
-	${git} "${DIR}/patches/bbb_overlays/nvmem/0014-nvmem-core-fix-the-out-of-range-leak-in-read-write.patch"
-	${git} "${DIR}/patches/bbb_overlays/nvmem/0015-nvmem-core-Handle-shift-bits-in-place-if-cell-nbits-.patch"
-	${git} "${DIR}/patches/bbb_overlays/nvmem/0016-nvmem-core-Fix-memory-leak-in-nvmem_cell_write.patch"
-	${git} "${DIR}/patches/bbb_overlays/nvmem/0017-nvmem-sunxi-Check-for-memory-allocation-failure.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0009-nvmem-Add-DT-binding-documentation-for-Vybrid-OCOTP-.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0010-nvmem-Add-Vybrid-OCOTP-support.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0011-nvmem-Add-i.MX6-OCOTP-device-tree-binding-documentat.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0012-nvmem-imx-ocotp-Add-i.MX6-OCOTP-driver.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0013-nvmem-add-binding-for-mxs-ocotp.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0014-nvmem-add-driver-for-ocotp-in-i.MX23-and-i.MX28.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0015-nvmem-rockchip-efuse-describe-the-usage-of-eFuse.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0016-nvmem-Adding-bindings-for-rockchip-efuse.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0017-nvmem-rockchip_efuse_regmap_config-can-be-static.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0018-nvmem-core-fix-the-out-of-range-leak-in-read-write.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0019-nvmem-core-Handle-shift-bits-in-place-if-cell-nbits-.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0020-nvmem-core-Fix-memory-leak-in-nvmem_cell_write.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0021-nvmem-sunxi-Check-for-memory-allocation-failure.patch"
 
 #email...
 
-	${git} "${DIR}/patches/bbb_overlays/nvmem/0018-nvmem-make-default-user-binary-file-root-access-only.patch"
-	${git} "${DIR}/patches/bbb_overlays/nvmem/0019-nvmem-set-the-size-for-the-nvmem-binary-file.patch"
-	${git} "${DIR}/patches/bbb_overlays/nvmem/0020-nvmem-add-permission-flags-in-nvmem_config.patch"
-	${git} "${DIR}/patches/bbb_overlays/nvmem/0021-nvmem-fix-permissions-of-readonly-nvmem-binattr.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0022-nvmem-make-default-user-binary-file-root-access-only.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0023-nvmem-set-the-size-for-the-nvmem-binary-file.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0024-nvmem-add-permission-flags-in-nvmem_config.patch"
+	${git} "${DIR}/patches/bbb_overlays/nvmem/0025-nvmem-fix-permissions-of-readonly-nvmem-binattr.patch"
 
 	if [ "x${regenerate}" = "xenable" ] ; then
-		number=21
+		number=25
 		cleanup
 	fi
 
@@ -388,9 +420,11 @@ beaglebone () {
 	${git} "${DIR}/patches/beaglebone/dts/0005-add-overlay-dtb.patch"
 	${git} "${DIR}/patches/beaglebone/dts/0006-am335x-bone-common-cpsw-no-longer-need-to-define-bot.patch"
 	${git} "${DIR}/patches/beaglebone/dts/0007-am335x-bone-common-drop-0x1a0-from-mmc.patch"
+	${git} "${DIR}/patches/beaglebone/dts/0008-tps65217-Enable-KEY_POWER-press-on-AC-loss-PWR_BUT.patch"
+	${git} "${DIR}/patches/beaglebone/dts/0009-spi-omap2-mcspi-ti-pio-mode.patch"
 
 	if [ "x${regenerate}" = "xenable" ] ; then
-		number=7
+		number=9
 		cleanup
 	fi
 
@@ -449,6 +483,25 @@ beaglebone () {
 		cleanup
 	fi
 
+	echo "dir: beaglebone/abbbi"
+	#regenerate="enable"
+	if [ "x${regenerate}" = "xenable" ] ; then
+		start_cleanup
+	fi
+
+	${git} "${DIR}/patches/beaglebone/abbbi/0001-drm-tilcdc-Remove-tilcdc-slave-support-for-tda998x-d.patch"
+	${git} "${DIR}/patches/beaglebone/abbbi/0002-drm-tilcdc-Add-support-for-external-tda998x-encoder.patch"
+	${git} "${DIR}/patches/beaglebone/abbbi/0003-drm-tilcdc-Add-DRM_TILCDC_SLAVE_COMPAT-for-ti-tilcdc.patch"
+	${git} "${DIR}/patches/beaglebone/abbbi/0004-gpu-drm-i2c-add-alternative-adv7511-driver-with-audi.patch"
+	${git} "${DIR}/patches/beaglebone/abbbi/0005-gpu-drm-i2c-adihdmi-componentize-driver-and-huge-ref.patch"
+	${git} "${DIR}/patches/beaglebone/abbbi/0006-ARM-dts-am335x-boneblack-Use-new-binding-for-HDMI.patch"
+	${git} "${DIR}/patches/beaglebone/abbbi/0007-ARM-dts-add-Arrow-BeagleBone-Black-Industrial-dts.patch"
+
+	if [ "x${regenerate}" = "xenable" ] ; then
+		number=7
+		cleanup
+	fi
+
 	#This has to be last...
 	echo "dir: beaglebone/dtbs"
 	#regenerate="enable"
@@ -474,7 +527,9 @@ beaglebone () {
 		device="am335x-boneblack-nhdmi-overlay.dtb" ; dtb_makefile_append
 		device="am335x-boneblack-overlay.dtb" ; dtb_makefile_append
 
+		device="am335x-boneblack-bbbmini.dtb" ; dtb_makefile_append
 		device="am335x-boneblack-replicape.dtb" ; dtb_makefile_append
+		device="am335x-boneblack-spi0.dtb" ; dtb_makefile_append
 		device="am335x-boneblack-wl1835mod.dtb" ; dtb_makefile_append
 
 		device="am335x-bonegreen.dtb" ; dtb_makefile_append
@@ -546,9 +601,11 @@ quieter () {
 	#quiet some hide obvious things...
 	${git} "${DIR}/patches/quieter/0001-quiet-8250_omap.c-use-pr_info-over-pr_err.patch"
 	${git} "${DIR}/patches/quieter/0002-quiet-topology.c-use-pr_info-over-pr_err-missing-clo.patch"
+	${git} "${DIR}/patches/quieter/0003-quiet-vgaarb-use-pr_info-over-pr_err.patch"
+	${git} "${DIR}/patches/quieter/0004-quiet-arch-arm-mach-omap2-voltage.c-legacy-harmless.patch"
 
 	if [ "x${regenerate}" = "xenable" ] ; then
-		number=2
+		number=4
 		cleanup
 	fi
 }
@@ -556,11 +613,14 @@ quieter () {
 ###
 reverts
 backports
-fixes
-pru
+#fixes
+x15
+pru_uio
+pru_rpmsg
 bbb_overlays
 beaglebone
 quieter
+
 
 packaging () {
 	echo "dir: packaging"
