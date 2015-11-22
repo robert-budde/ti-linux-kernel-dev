@@ -133,6 +133,61 @@ external_git () {
 	fi
 }
 
+aufs_fail () {
+	echo "aufs4 failed"
+	exit 2
+}
+
+aufs4 () {
+	echo "dir: aufs4"
+	#regenerate="enable"
+	if [ "x${regenerate}" = "xenable" ] ; then
+		wget -c https://raw.githubusercontent.com/sfjro/aufs4-standalone/aufs${KERNEL_REL}/aufs4-kbuild.patch
+		patch -p1 < aufs4-kbuild.patch || aufs_fail
+		rm -rf aufs4-kbuild.patch
+		git add .
+		git commit -a -m 'merge: aufs4-kbuild' -s
+
+		wget -c https://raw.githubusercontent.com/sfjro/aufs4-standalone/aufs${KERNEL_REL}/aufs4-base.patch
+		patch -p1 < aufs4-base.patch || aufs_fail
+		rm -rf aufs4-base.patch
+		git add .
+		git commit -a -m 'merge: aufs4-base' -s
+
+		wget -c https://raw.githubusercontent.com/sfjro/aufs4-standalone/aufs${KERNEL_REL}/aufs4-mmap.patch
+		patch -p1 < aufs4-mmap.patch || aufs_fail
+		rm -rf aufs4-mmap.patch
+		git add .
+		git commit -a -m 'merge: aufs4-mmap' -s
+
+		wget -c https://raw.githubusercontent.com/sfjro/aufs4-standalone/aufs${KERNEL_REL}/aufs4-standalone.patch
+		patch -p1 < aufs4-standalone.patch || aufs_fail
+		rm -rf aufs4-standalone.patch
+		git add .
+		git commit -a -m 'merge: aufs4-standalone' -s
+
+		git format-patch -4 -o ../patches/aufs4/
+		exit 2
+	fi
+
+	${git} "${DIR}/patches/aufs4/0001-merge-aufs4-kbuild.patch"
+	${git} "${DIR}/patches/aufs4/0002-merge-aufs4-base.patch"
+	${git} "${DIR}/patches/aufs4/0003-merge-aufs4-mmap.patch"
+	${git} "${DIR}/patches/aufs4/0004-merge-aufs4-standalone.patch"
+
+	#regenerate="enable"
+	if [ "x${regenerate}" = "xenable" ] ; then
+		start_cleanup
+	fi
+
+	${git} "${DIR}/patches/aufs4/0005-aufs-why-this-isnt-a-patch.patch"
+
+	if [ "x${regenerate}" = "xenable" ] ; then
+		number=5
+		cleanup
+	fi
+}
+
 rt_cleanup () {
 	echo "Fixing: drivers/gpio/gpio-omap.c"
 	sed -i -e 's/\<spin_lock_irqsave\>/raw_spin_lock_irqsave/g' drivers/gpio/gpio-omap.c
@@ -166,6 +221,7 @@ local_patch () {
 }
 
 external_git
+aufs4
 #rt
 #local_patch
 
@@ -196,9 +252,10 @@ backports () {
 	#careful around: https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/commit/drivers/net/wireless/mediatek?id=30686bf7f5b3c30831761e188a6e3cb33580fa48
 	${git} "${DIR}/patches/backports/mediatek/0001-backport-mediatek-mt7601u-from-v4.2-rc3.patch"
 	${git} "${DIR}/patches/backports/0002-backport-drivers-staging-fbtft-v4.3.0.patch"
+	${git} "${DIR}/patches/backports/0003-backport-fbtft-v4.4-rc1.patch"
 
 	if [ "x${regenerate}" = "xenable" ] ; then
-		number=2
+		number=3
 		cleanup
 	fi
 }
@@ -240,7 +297,8 @@ pru_rpmsg () {
 	fi
 
 	${git} "${DIR}/patches/pru_rpmsg/0001-Fix-remoteproc-to-work-with-the-PRU-GNU-Binutils-por.patch"
-	${git} "${DIR}/patches/pru_rpmsg/0002-Add-rpmsg_pru-support.patch"
+#http://git.ti.com/gitweb/?p=ti-linux-kernel/ti-linux-kernel.git;a=commit;h=c2e6cfbcf2aafc77e9c7c8f1a3d45b062bd21876
+#	${git} "${DIR}/patches/pru_rpmsg/0002-Add-rpmsg_pru-support.patch"
 	${git} "${DIR}/patches/pru_rpmsg/0003-ARM-samples-seccomp-no-m32.patch"
 
 	if [ "x${regenerate}" = "xenable" ] ; then
